@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Filter;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -33,11 +34,13 @@ class CategoryRequest extends FormRequest
                 'max:255',
                 //'unique:categories,name,'.$id,
                 Rule::unique('categories','name')->ignore($id),
-                function($attribute,$value,$fails){
-                    if (strtolower($value) == 'laravel') {
-                        $fails('This name is forbiden!');
-                    }
-                },
+                // function($attribute,$value,$fails){
+                //     if (strtolower($value) == 'laravel') {
+                //         $fails('This name is forbiden!');
+                //     }
+                // },
+                //'filter:php,laravel,html'
+                new Filter(['laravel','php','html']),
             ],
             'parent_id' => [
                 'nullable' , 'int' , 'exists:categories,id'

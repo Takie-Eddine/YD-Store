@@ -19,25 +19,19 @@
 
                         <form class="forms-sample" action="{{route('dashboard.categories.store')}}" method="POST" enctype="multipart/form-data">
                             @csrf
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <h3>Error Occured!</h3>
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{$error}}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+
+                            <x-alert></x-alert>
 
                             <div class="form-group">
-                                <label for="exampleInputName1">Name</label>
-                                <input type="text" class="form-control @error('name') is-invalid @enderror " name="name" id="exampleInputName1" placeholder="Name" value="{{old('name')}}">
+                                {{-- <label for="exampleInputName1">Name</label> --}}
+                                {{-- <input type="text" class="form-control @error('name') is-invalid @enderror " name="name" id="exampleInputName1" placeholder="Name" value="{{old('name')}}">
                                 @error('name')
                                     <div class="invalid-feedback">
                                         {{$message}}
                                     </div>
-                                @enderror
+                                @enderror --}}
+
+                                <x-form.input label="Category Name" name="name"  placeholder="Category Name"/>
                             </div>
                             <div class="form-group">
                                 <label for="exampleSelectGender">Category Parent</label>
@@ -54,26 +48,31 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail3">Description</label>
+                                {{-- <label for="exampleInputEmail3">Description</label>
                                 <textarea class="form-control @error('description') is-invalid @enderror " name="description" id="description" rows="1">{{old('description')}}</textarea>
                                 @error('description')
                                     <div class="invalid-feedback">
                                         {{$message}}
                                     </div>
-                                @enderror
+                                @enderror --}}
+                                <x-form.textarea label="Description" name="description"  />
                             </div>
                             <div class="form-group">
-                                <label>Image </label>
-                                <input type="file" name="image" class="form-control @error('image') is-invalid @enderror " accept="image/*">
+                                {{-- <label>Image </label> --}}
+                                <x-form.label id="image">Image</x-form.label>
+                                <x-form.input type="file" name="image" accept="image/*" />
+                                {{-- <input type="file" name="image" class="form-control @error('image') is-invalid @enderror " accept="image/*">
                                 @error('image')
                                     <div class="invalid-feedback">
                                         {{$message}}
                                     </div>
-                                @enderror
+                                @enderror --}}
                             </div>
                             <div class="form-group">
-                                <label >Status</label>
-                                <div class="form-check">
+                                {{-- <label >Status</label> --}}
+                                <x-form.label id="status">Status</x-form.label>
+                                <x-form.radio name="status" checked="" :options="['active' => 'Active' , 'archived' => 'Archived']" />
+                                {{-- <div class="form-check">
                                     <label class="form-check-label">
                                     <input type="radio" class="form-check-input @error('status') is-invalid @enderror" name="status"  value="active" @checked(old('status') == 'active') >
                                         Active
@@ -84,7 +83,7 @@
                                     <input type="radio" class="form-check-input @error('status') is-invalid @enderror" name="status"  value="archived" @checked(old('status') == 'archived')>
                                         Archived
                                     </label>
-                                </div>
+                                </div> --}}
                                 @error('status')
                                     <div class="invalid-feedback">
                                         {{$message}}

@@ -6,14 +6,15 @@ use Illuminate\Contracts\Validation\Rule;
 
 class Filter implements Rule
 {
+    protected $forbidden ;
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($forbidden)
     {
-        //
+        $this->forbidden = ($forbidden) ;
     }
 
     /**
@@ -25,7 +26,9 @@ class Filter implements Rule
      */
     public function passes($attribute, $value)
     {
-        //
+
+            return !in_array(strtolower($value) , $this->forbidden );
+
     }
 
     /**
@@ -35,6 +38,6 @@ class Filter implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'This Value is not allowed.';
     }
 }

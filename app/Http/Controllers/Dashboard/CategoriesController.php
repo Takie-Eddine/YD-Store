@@ -18,7 +18,16 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Category::all();
+        $request = request();
+
+
+        $categories = Category::leftJoin('categories as parents' , 'parents.id', '=' , 'categories.parent_id')
+            ->select([
+                'categories.*',
+                'parents.name as parent_name',
+            ])
+            ->filter($request->query())
+            ->paginate(2);
         return view('dashboard.categories.index',compact('categories'));
     }
 
@@ -182,9 +191,43 @@ class CategoriesController extends Controller
         }
         $category->delete();
 
-        if ($category->image) {
-            Storage::disk('public')->delete($category->image);
-        }
+        // if ($category->image) {
+        //     Storage::disk('public')->delete($category->image);
+        // }
         return redirect()->route('dashboard.categories.index')->with(['toast_success' => 'Category deleted!']);
+    }
+
+
+    public function trash(){
+
+        $categories = Category::onlyTrashed()->paginate(2);
+
+        return view('dashboard.categories.trash',compact('categories'));
+
+    }
+
+
+    public function restore(Request $request ,$id){
+
+        $category = Category::onlyTrashed()->find($id);
+
+        if (!$category) {
+            return redirect()->route('dashboard.categories.trash')->with(['toast_error' => 'Not found']);
+        }
+        $category->restore();
+
+        return redirect()->route('dashboard.categories.trash')->with(['toast_success' => 'Category restored!']);
+    }
+
+
+    public function forceDelete($id){
+        $category = Category::onlyTrashed()->find($id);
+
+        if (!$category) {
+            return redirect()->route('dashboard.categories.trash')->with(['toast_error' => 'Not found']);
+        }
+        $category->forceDelete();
+
+        return redirect()->route('dashboard.categories.trash')->with(['toast_success' => 'Category deleted forever!']);
     }
 }

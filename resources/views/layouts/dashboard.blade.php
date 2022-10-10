@@ -33,8 +33,8 @@
 
             <div class="container-fluid page-body-wrapper">
                 @include('layouts.setting')
-                @include('layouts.sidebar')
-
+                {{-- @include('layouts.sidebar') --}}
+                <x-nav />
 
                     @yield('content')
 

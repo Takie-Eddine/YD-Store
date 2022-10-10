@@ -20,24 +20,17 @@
                         <form class="forms-sample" action="{{route('dashboard.categories.update',$category->id)}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <h3>Error Occured!</h3>
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{$error}}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endif
+                            <x-alert></x-alert>
+
                             <div class="form-group">
-                                <label for="exampleInputName1">Name</label>
-                                <input type="text" class="form-control  @error('name') is-invalid @enderror" name="name" value="{{$category->name}}" id="exampleInputName1" placeholder="Name">
+                                {{-- <label for="exampleInputName1">Name</label> --}}
+                                {{-- <input type="text" class="form-control  @error('name') is-invalid @enderror" name="name" value="{{$category->name}}" id="exampleInputName1" placeholder="Name">
                                 @error('name')
                                     <div class="invalid-feedback">
                                         {{$message}}
                                     </div>
-                                @enderror
+                                @enderror --}}
+                                <x-form.input label="Category Name" name="name" value="{{$category->name}}" />
                             </div>
                             <div class="form-group">
                                 <label for="exampleSelectGender">Category Parent</label>
@@ -54,29 +47,33 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail3">Description</label>
+                                {{-- <label for="exampleInputEmail3">Description</label>
                                 <textarea class="form-control  @error('description') is-invalid @enderror" name="description" id="description" rows="1">{{$category->description}}</textarea>
                                 @error('description')
                                     <div class="invalid-feedback">
                                         {{$message}}
                                     </div>
-                                @enderror
+                                @enderror --}}
+                                <x-form.textarea label="Description" name="description"  value="{{$category->description}}" />
                             </div>
                             <div class="form-group">
-                                <label>Image </label>
-                                <input type="file" name="image" class="form-control  @error('image') is-invalid @enderror" accept="image/*">
+                                <x-form.label id="image">Image</x-form.label>
+                                <x-form.input type="file" name="image" accept="image/*" />
+                                {{-- <input type="file" name="image" class="form-control  @error('image') is-invalid @enderror" accept="image/*">
                                 @error('image')
                                 <div class="invalid-feedback">
                                     {{$message}}
                                 </div>
-                                @enderror
+                                @enderror --}}
                                 <br>
                                 @if ($category->image)
                                     <img src="{{asset('storage/'.$category->image)}}" height="100" width="200" >
                                 @endif
                             </div>
                             <div class="form-group">
-                                <label >Status</label>
+                                <x-form.label id="status">Status</x-form.label>
+                                <x-form.radio name="status" checked="{{$category->status}}" :options="['active'=>'Active' , 'archived'=>'Archived']" />
+                                {{-- <label >Status</label>
                                 <div class="form-check">
                                     <label class="form-check-label">
                                     <input type="radio" class="form-check-input  @error('status') is-invalid @enderror" name="status"  value="active" @checked($category->status == 'active')>
@@ -93,7 +90,7 @@
                                     <div class="invalid-feedback">
                                         {{$message}}
                                     </div>
-                                @enderror
+                                @enderror --}}
                             </div>
 
                             <button type="submit" class="btn btn-primary me-2">Update</button>

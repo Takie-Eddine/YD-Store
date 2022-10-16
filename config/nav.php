@@ -19,7 +19,7 @@ return [
 
     [
         'icon' => 'mdi mdi-shopping',
-        'route' => 'dashboard.categories.index',
+        'route' => 'dashboard.products.index',
         'title' => 'Products',
         'active' => 'dashboard.products.*',
     ],

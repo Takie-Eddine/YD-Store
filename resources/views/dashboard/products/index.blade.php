@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title','Categories')
+@section('title','Products')
 
 
 @push('style')
@@ -15,12 +15,12 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Categories</h4>
+                            <h4 class="card-title">Products</h4>
                             <br>
                             <div  class="table-responsive">
                                 <div class="mb-5">
-                                    <a href="{{route('dashboard.categories.create')}}" class="btn btn-sm btn-primary btn-rounded btn-fw mr-2">Create</a>
-                                    <a href="{{route('dashboard.categories.trash')}}" class="btn btn-sm btn-dark btn-rounded btn-fw">Trash</a>
+                                    <a href="{{route('dashboard.products.create')}}" class="btn btn-sm btn-primary btn-rounded btn-fw mr-2">Create</a>
+                                    <a href="" class="btn btn-sm btn-dark btn-rounded btn-fw">Trash</a>
                                 </div>
 
                                 <form action="{{URL::current()}}" method="GET" class="d-flex justify-content-between mb-4">
@@ -38,26 +38,26 @@
                                             <th></th>
                                             <th>ID</th>
                                             <th>Name</th>
-                                            <th>Parent</th>
-                                            <th>Products</th>
+                                            <th>Category</th>
+                                            <th>Store</th>
                                             <th>Status</th>
                                             <th>Created At</th>
                                             <th colspan="2">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            @forelse ($categories as $category)
+                                            @forelse ($products as $product)
                                                 <tr>
-                                                    <td><img src="{{asset('storage/'.$category->image)}}" height="100" width="100" ></td>
-                                                    <td>{{$category->id}}</td>
-                                                    <td ><a href="{{route('dashboard.categories.show',$category->id)}}"> {{$category->name}} </a></td>
-                                                    <td>{{$category->parent->name }}</td>
-                                                    <td>{{$category->products_count }}</td>
-                                                    <td>{{$category->status}}</td>
-                                                    <td>{{$category->created_at}}</td>
+                                                    <td><img src="{{asset('storage/'.$product->image)}}" height="100" width="100" ></td>
+                                                    <td>{{$product->id}}</td>
+                                                    <td >{{$product->name}}</td>
+                                                    <td>{{$product->category->name}}</td>
+                                                    <td>{{$product->store->name}}</td>
+                                                    <td>{{$product->status}}</td>
+                                                    <td>{{$product->created_at}}</td>
                                                     <td>
-                                                        <a href="{{route('dashboard.categories.edit',$category->id)}}" class="btn btn-sm btn-secondary btn-rounded btn-fw">Edit</a>
-                                                        <form action="{{route('dashboard.categories.destroy',$category->id)}}" method="POST">
+                                                        <a href="{{route('dashboard.products.edit',$product->id)}}" class="btn btn-sm btn-secondary btn-rounded btn-fw">Edit</a>
+                                                        <form action="{{route('dashboard.products.destroy',$product->id)}}" method="POST">
                                                             @csrf
                                                             @method('delete')
                                                             <button type="submit" class="btn btn-sm btn-danger btn-rounded btn-fw">Delete</button>
@@ -73,7 +73,7 @@
                                     </tbody>
                                 </table>
                                 <div>
-                                    {{$categories->withQueryString()->links()}}
+                                    {{$products->withQueryString()->links()}}
                                 </div>
                             </div>
                         </div>

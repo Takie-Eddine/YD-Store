@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title','Categories')
+@section('title','Trash Categories')
 
 
 @push('style')
@@ -15,14 +15,12 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Categories</h4>
+                            <h4 class="card-title">Trash Categories</h4>
                             <br>
                             <div  class="table-responsive">
                                 <div class="mb-5">
-                                    <a href="{{route('dashboard.categories.create')}}" class="btn btn-sm btn-primary btn-rounded btn-fw mr-2">Create</a>
-                                    <a href="{{route('dashboard.categories.trash')}}" class="btn btn-sm btn-dark btn-rounded btn-fw">Trash</a>
+                                    <a href="{{route('dashboard.categories.index')}}" class="btn btn-sm btn-primary btn-rounded btn-fw">Back</a>
                                 </div>
-
                                 <form action="{{URL::current()}}" method="GET" class="d-flex justify-content-between mb-4">
                                     <x-form.input name="name" placeholder="Name" class="mx-2" value="{{request('name')}}" />
                                     <select name="status" class="form-control mx-2">
@@ -38,10 +36,9 @@
                                             <th></th>
                                             <th>ID</th>
                                             <th>Name</th>
-                                            <th>Parent</th>
-                                            <th>Products</th>
+                                            {{-- <th>Parent</th> --}}
                                             <th>Status</th>
-                                            <th>Created At</th>
+                                            <th>Deleted At</th>
                                             <th colspan="2">Action</th>
                                         </tr>
                                     </thead>
@@ -50,14 +47,17 @@
                                                 <tr>
                                                     <td><img src="{{asset('storage/'.$category->image)}}" height="100" width="100" ></td>
                                                     <td>{{$category->id}}</td>
-                                                    <td ><a href="{{route('dashboard.categories.show',$category->id)}}"> {{$category->name}} </a></td>
-                                                    <td>{{$category->parent->name }}</td>
-                                                    <td>{{$category->products_count }}</td>
+                                                    <td >{{$category->name}}</td>
+                                                    {{-- <td>{{$category->parent_name ?? '__'}}</td> --}}
                                                     <td>{{$category->status}}</td>
-                                                    <td>{{$category->created_at}}</td>
+                                                    <td>{{$category->deleted_at}}</td>
                                                     <td>
-                                                        <a href="{{route('dashboard.categories.edit',$category->id)}}" class="btn btn-sm btn-secondary btn-rounded btn-fw">Edit</a>
-                                                        <form action="{{route('dashboard.categories.destroy',$category->id)}}" method="POST">
+                                                        <form action="{{route('dashboard.categories.restore',$category->id)}}" method="POST">
+                                                            @csrf
+                                                            @method('put')
+                                                            <button type="submit" class="btn btn-sm btn-info btn-rounded btn-fw">Restore</button>
+                                                        </form>
+                                                        <form action="{{route('dashboard.categories.force-delete',$category->id)}}" method="POST">
                                                             @csrf
                                                             @method('delete')
                                                             <button type="submit" class="btn btn-sm btn-danger btn-rounded btn-fw">Delete</button>

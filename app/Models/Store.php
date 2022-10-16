@@ -11,4 +11,11 @@ class Store extends Model
 
 
     public $timestamps = true;
+
+
+
+    public function products(){
+
+        return $this->hasMany(Product::class ,'store_id' , 'id');
+    }
 }

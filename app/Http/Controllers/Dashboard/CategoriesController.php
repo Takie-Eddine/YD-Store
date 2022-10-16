@@ -21,13 +21,19 @@ class CategoriesController extends Controller
         $request = request();
 
 
-        $categories = Category::leftJoin('categories as parents' , 'parents.id', '=' , 'categories.parent_id')
+        $categories = Category::with('parent')
+            /*leftJoin('categories as parents' , 'parents.id', '=' , 'categories.parent_id')
             ->select([
                 'categories.*',
                 'parents.name as parent_name',
+            ])*/
+            ->withCount([
+                'products as products_count' => function($query){
+                    $query->where('status' , '=' , 'active');
+                }
             ])
             ->filter($request->query())
-            ->paginate(2);
+            ->paginate(5);
         return view('dashboard.categories.index',compact('categories'));
     }
 
@@ -90,9 +96,9 @@ class CategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        //
+        return view('dashboard.categories.show',compact('category'));
     }
 
     /**
@@ -227,6 +233,10 @@ class CategoriesController extends Controller
             return redirect()->route('dashboard.categories.trash')->with(['toast_error' => 'Not found']);
         }
         $category->forceDelete();
+
+        if ($category->image) {
+            Storage::disk('public')->delete($category->image);
+        }
 
         return redirect()->route('dashboard.categories.trash')->with(['toast_success' => 'Category deleted forever!']);
     }

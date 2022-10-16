@@ -42,4 +42,20 @@ class Category extends Model
         //     $builder->where('status','=', $filters['status']);
         // }
     }
+
+    public function parent(){
+        return $this->belongsTo(Category::class, 'parent_id','id')
+        ->withDefault([
+            'name' => '__'
+        ]);
+    }
+
+    public function children(){
+        return $this->hasMany(Category::class,'parent_id','id');
+    }
+
+
+    public function products(){
+        return $this->hasMany(Product::class , 'category_id' , 'id');
+    }
 }

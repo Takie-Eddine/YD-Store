@@ -15,30 +15,22 @@
                 <div class="col-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                        <h4 class="card-title">Create Category</h4>
+                        <h4 class="card-title">Create Product</h4>
 
-                        <form class="forms-sample" action="{{route('dashboard.categories.store')}}" method="POST" enctype="multipart/form-data">
+                        <form class="forms-sample" action="{{route('dashboard.products.store')}}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             <x-alert></x-alert>
 
                             <div class="form-group">
-                                {{-- <label for="exampleInputName1">Name</label> --}}
-                                {{-- <input type="text" class="form-control @error('name') is-invalid @enderror " name="name" id="exampleInputName1" placeholder="Name" value="{{old('name')}}">
-                                @error('name')
-                                    <div class="invalid-feedback">
-                                        {{$message}}
-                                    </div>
-                                @enderror --}}
-
-                                <x-form.input label="Category Name" name="name"  placeholder="Category Name"/>
+                                <x-form.input label="Product Name" name="name"  placeholder="Product Name"/>
                             </div>
                             <div class="form-group">
-                                <label for="exampleSelectGender">Category Parent</label>
-                                <select class="form-control  @error('parent_id') is-invalid @enderror" name="parent_id" id="exampleSelectGender">
+                                <label for="exampleSelectGender">Category </label>
+                                <select class="form-control  @error('category') is-invalid @enderror" name="category" id="exampleSelectGender">
                                     <option value="">Primary Category</option>
-                                    @foreach ($categories as $parent)
-                                        <option value="{{$parent->id }}" @selected(old('parent_id') == $parent->id)>{{$parent->name }}</option>
+                                    @foreach (App\Models\Category::all() as $category)
+                                        <option value="{{$category->id }}" @selected(old('category_id') == $category->id)>{{$category->name }}</option>
                                     @endforeach
                                 </select>
                                 @error('parent_id')
@@ -48,42 +40,25 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                {{-- <label for="exampleInputEmail3">Description</label>
-                                <textarea class="form-control @error('description') is-invalid @enderror " name="description" id="description" rows="1">{{old('description')}}</textarea>
-                                @error('description')
-                                    <div class="invalid-feedback">
-                                        {{$message}}
-                                    </div>
-                                @enderror --}}
                                 <x-form.textarea label="Description" name="description"  />
                             </div>
                             <div class="form-group">
-                                {{-- <label>Image </label> --}}
+
                                 <x-form.label id="image">Image</x-form.label>
                                 <x-form.input type="file" name="image" accept="image/*" />
-                                {{-- <input type="file" name="image" class="form-control @error('image') is-invalid @enderror " accept="image/*">
-                                @error('image')
-                                    <div class="invalid-feedback">
-                                        {{$message}}
-                                    </div>
-                                @enderror --}}
                             </div>
                             <div class="form-group">
-                                {{-- <label >Status</label> --}}
+                                <x-form.input label="Price" name="price"   placeholder="Price"/>
+                            </div>
+                            <div class="form-group">
+                                <x-form.input label="Compare Price" name="compare_price"  placeholder="Compare Price"/>
+                            </div>
+                            <div class="form-group">
+                                <x-form.input label="Tags" name="tags"   placeholder="Tags"/>
+                            </div>
+                            <div class="form-group">
                                 <x-form.label id="status">Status</x-form.label>
-                                <x-form.radio name="status" checked="" :options="['active' => 'Active' , 'archived' => 'Archived']" />
-                                {{-- <div class="form-check">
-                                    <label class="form-check-label">
-                                    <input type="radio" class="form-check-input @error('status') is-invalid @enderror" name="status"  value="active" @checked(old('status') == 'active') >
-                                        Active
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                    <input type="radio" class="form-check-input @error('status') is-invalid @enderror" name="status"  value="archived" @checked(old('status') == 'archived')>
-                                        Archived
-                                    </label>
-                                </div> --}}
+                                <x-form.radio name="status" checked="" :options="['active' => 'Active', 'draft' => 'Draft' , 'archived' => 'Archived']" />
                                 @error('status')
                                     <div class="invalid-feedback">
                                         {{$message}}

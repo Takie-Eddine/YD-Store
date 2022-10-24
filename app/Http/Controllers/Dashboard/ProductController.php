@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -27,7 +29,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.products.create');
     }
 
     /**
@@ -60,14 +62,15 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        $category = Product::find($id);
+        $product = Product::find($id);
+        $tags = implode(',' , $product->tags()->pluck('name')->toArray());
 
-        if (!$category) {
+        if (!$product) {
             return redirect()->route('dashboard.products.index')->with(['toast_error' => 'Not found']);
         }
 
 
-        return view('dashboard.products.edit',compact('category'));
+        return view('dashboard.products.edit',compact('product','tags'));
     }
 
     /**
@@ -77,9 +80,27 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        //
+
+        $product->update($request->except('tags'));
+
+        $tags = explode(',' , $request->tags);
+        $tags_ids = [];
+        foreach ($tags as $t_name) {
+            $slug = Str::slug($t_name);
+            $tag = Tag::where('slug' , $slug)->first();
+            if(!$tag){
+                $tag = Tag::create([
+                    'name' => $t_name,
+                    'slug' => $slug ,
+                ]);
+                $tags_ids[] = $tag->id;
+            }
+        }
+        $product->tags()->sync($tags_ids);
+
+        return redirect()->route('dashboard.products.index')->with(['toast_success' => 'Product updated!']);
     }
 
     /**

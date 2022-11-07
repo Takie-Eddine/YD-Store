@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
+
 
 class Category extends Model
 {
@@ -42,6 +44,24 @@ class Category extends Model
         //     $builder->where('status','=', $filters['status']);
         // }
     }
+
+
+
+    public function getImageUrlAttribute(){
+
+        if(!$this->image){
+            return 'https://icphso.org/global_graphics/default-store-350x350.jpg';
+        }
+
+        if (Str::startsWith($this->image,['http://' , 'https://'])) {
+            return $this->image;
+        }
+
+        return asset('storage/' .$this->image);
+
+    }
+
+
 
     public function parent(){
         return $this->belongsTo(Category::class, 'parent_id','id')

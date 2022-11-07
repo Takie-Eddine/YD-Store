@@ -37,7 +37,7 @@
                                         @endphp
                                         @forelse ($products as $product)
                                             <tr>
-                                                <td><img src="{{asset('storage/'.$product->image)}}" height="100" width="100" ></td>
+                                                <td><img src="{{$product->image_url}}" height="100" width="100" ></td>
                                                 <td >{{$product->name}}</td>
                                                 <td>{{$product->store->name }}</td>
                                                 <td>{{$product->status}}</td>

@@ -63,14 +63,16 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
-        $tags = implode(',' , $product->tags()->pluck('name')->toArray());
+        $tags = implode(',', $product->tags()->pluck('name')->toArray());
 
         if (!$product) {
             return redirect()->route('dashboard.products.index')->with(['toast_error' => 'Not found']);
         }
 
 
-        return view('dashboard.products.edit',compact('product','tags'));
+        return view('dashboard.products.edit', compact('product', 'tags'));
+
+
     }
 
     /**
@@ -83,22 +85,28 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
 
-        $product->update($request->except('tags'));
+        //return $request;
+        $product->update( $request->except('tags') );
 
-        $tags = explode(',' , $request->tags);
-        $tags_ids = [];
-        foreach ($tags as $t_name) {
-            $slug = Str::slug($t_name);
-            $tag = Tag::where('slug' , $slug)->first();
-            if(!$tag){
+
+        $tags = json_decode($request->post('tags'));
+        $tag_ids = [];
+
+        $saved_tags = Tag::all();
+
+        foreach ($tags as $item) {
+            $slug = Str::slug($item->value);
+            $tag = $saved_tags->where('slug', $slug)->first();
+            if (!$tag) {
                 $tag = Tag::create([
-                    'name' => $t_name,
-                    'slug' => $slug ,
+                    'name' => $item->value,
+                    'slug' => $slug,
                 ]);
-                $tags_ids[] = $tag->id;
             }
+            $tag_ids[] = $tag->id;
         }
-        $product->tags()->sync($tags_ids);
+
+        $product->tags()->sync($tag_ids);
 
         return redirect()->route('dashboard.products.index')->with(['toast_success' => 'Product updated!']);
     }

@@ -4,7 +4,7 @@
 
 
 @push('style')
-
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 @endpush
 
 @section('content')
@@ -48,7 +48,7 @@
                                 <x-form.input type="file" name="image" accept="image/*" />
                                 <br>
                                 @if ($product->image)
-                                    <img src="{{asset('storage/'.$product->image)}}" height="100" width="200" >
+                                    <img src="{{$product->image_url}}" height="100" width="200" >
                                 @endif
                             </div>
                             <div class="form-group">
@@ -84,5 +84,12 @@
 
 
 @push('script')
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
 
+
+<script>
+    var inputElm = document.querySelector('[name=tags]'),
+    tagify = new Tagify (inputElm);
+</script>
 @endpush

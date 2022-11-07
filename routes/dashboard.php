@@ -7,8 +7,9 @@ use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Middleware\CheckUserType;
 
-Route::group(['middleware' => ['auth','verified'] , 'as'=>'dashboard.' , 'prefix' => 'dashboard'],function(){
+Route::group(['middleware' => ['auth','verified','auth.type:admin,super-admin'] , 'as'=>'dashboard.' , 'prefix' => 'dashboard'],function(){
 
 
     Route::get('/',[DashboardController::class,'index'])->name('dashboard');

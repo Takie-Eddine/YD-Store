@@ -67,7 +67,7 @@
                                 @enderror --}}
                                 <br>
                                 @if ($category->image)
-                                    <img src="{{asset('storage/'.$category->image)}}" height="100" width="200" >
+                                    <img src="{{$category->image_url}}" height="100" width="200" >
                                 @endif
                             </div>
                             <div class="form-group">

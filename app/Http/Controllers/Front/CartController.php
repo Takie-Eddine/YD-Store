@@ -93,16 +93,16 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CartRepository $cart)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'product_id' => ['required' , 'int' , 'exists:products,id'],
-            'quantity' => ['nullable' , 'int' , 'min:1'],
+            // 'product_id' => ['required' , 'int' , 'exists:products,id'],
+            'quantity' => ['required' , 'int' , 'min:1'],
         ]);
         $product = Product::findOrFail($request->product_id);
         // $repository = new CartModelRepository();
         // $repository->update($product , $request->quantity);
-        $cart->update($product , $request->quantity);
+        $this->cart->update($$id , $request->quantity);
     }
 
     /**
@@ -117,6 +117,9 @@ class CartController extends Controller
         $product = Product::findOrFail($id);
         // $repository = new CartModelRepository();
         // $repository->delete($id);
-        $cart->delete($id);
+        $this->cart->delete($id);
+        return [
+            'message' => 'item deleted!',
+        ];
     }
 }

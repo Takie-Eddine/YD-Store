@@ -39,6 +39,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \RealRashid\SweetAlert\ToSweetAlert::class,
             \App\Http\Middleware\UpdateUserLastActiveAt::class,
+            \App\Http\Middleware\MarkNotificationAsRead::class,
 
         ],
 

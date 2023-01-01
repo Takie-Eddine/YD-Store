@@ -64,6 +64,10 @@
         <script src="{{asset('js/jquery.cookie.js" type="text/javascript')}}"></script>
         <script src="{{asset('js/dashboard.js')}}"></script>
         <script src="{{asset('js/Chart.roundedBarCharts.js')}}"></script>
+        <script>
+            const userID = "{{Auth::id()}}";
+        </script>
+        <script src="{{asset('build/assets/app.351c2ae4.js')}}"></script>
         <!-- End custom js for this page-->
         @stack('script')
     </body>

@@ -9,7 +9,7 @@ use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Middleware\CheckUserType;
 
-Route::group(['middleware' => ['auth','verified','auth.type:admin,super-admin'] , 'as'=>'dashboard.' , 'prefix' => 'dashboard'],function(){
+Route::group(['middleware' => ['auth:admin','verified'] , 'as'=>'dashboard.' , 'prefix' => 'admin/dashboard'],function(){
 
 
     Route::get('/',[DashboardController::class,'index'])->name('dashboard');

@@ -24,5 +24,20 @@ return [
         'active' => 'dashboard.products.*',
     ],
 
+    [
+        'icon' => 'mdi mdi-shopping',
+        'route' => 'dashboard.products.index',
+        'title' => 'Products',
+        'active' => 'dashboard.products.*',
+    ],
+
+    [
+        'icon' => 'mdi mdi-shopping',
+        'route' => 'dashboard.categories.index',
+        'title' => 'Orders',
+        'active' => 'dashboard.orders.*',
+        'ability' => 'orders.view',
+    ],
+
 
 ];
